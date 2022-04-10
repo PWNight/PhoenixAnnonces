@@ -23,7 +23,6 @@ async def on_message(message):
     channel2 = bot.get_channel(939578152060084335) # ID канала с логами.
     memberop = message.author
     resno = '<:phoenix_error:954067706074775622> Ваше предыдущее объявление ещё находится на проверке. Вы не можете отправить объявление, пока предыдущее не будет проверено.'
-    resyes = '<:phoenix_verify:953725334770040953> Принял! Ваша публикация была отправлена на проверку. Мы оповестим вас о результатах проверки сообщением ниже.'
     if message.guild is None and not message.author.bot:
         if memberop.id in voprosmembers:
             await memberop.send(resno)
