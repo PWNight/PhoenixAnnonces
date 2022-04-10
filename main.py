@@ -1,3 +1,4 @@
+from pydoc import ErrorDuringImport
 import discord
 from discord.ext.commands.bot import Bot
 import asyncio
@@ -29,11 +30,6 @@ async def on_message(message):
             return
         if not memberop.id in voprosmembers:
                 global countervopros
-                countervopros += 1
-                voprosmembers.append(memberop.id)
-                await memberop.send(resyes)
-                annonce = discord.Embed(description=f'{message.content}', color = 0x2f3136)
-                annonce.set_author(name=f"{message.author}", icon_url = message.author.display_avatar.url)
                 row = Button(
                         style = discord.ButtonStyle.green,
                         label = 'Одобрить публикацию',
@@ -49,14 +45,36 @@ async def on_message(message):
                 view=View()
                 view.add_item(row)
                 view.add_item(row2)
-                files = []
                 for attachment in message.attachments:
                     try:
-                        if attachment.content_type.startswith("image/"):
-                            files.append(await attachment.to_file())
-                    except:
-                        continue
-                msgtic = await channel.send(embed=annonce, view=view, files = files)
+                        if attachment.content_type.startswith("image/") and len(message.attachments) == 1:
+                            countervopros += 1
+                            voprosmembers.append(memberop.id)
+                            annonce = discord.Embed(description=f'{message.content}', color = 0x2f3136)
+                            annonce.set_image(url=f'{attachment.url}')
+                            annonce.set_author(name=f"{message.author}", icon_url = message.author.display_avatar.url)
+                            msgtic = await channel.send(embed=annonce, view=view)
+                            embyes = discord.Embed(title= f'<:phoenix_verify:953725334770040953> Объявление на проверке.', description=f'Ваше объявление отправлено на проверку модерацией.', color = 0x2f3136)
+                            await memberop.send(embed = embyes)
+                    except asyncio.TimeoutError:
+                        print("Неизвестная ошибка в коде вопросов / Тикетов") 
+                    else:
+                        if len(message.attachments) > 1:
+                            await message.author.send(content='<:phoenix_error:954067706074775622> Публикация автоматически отклонена. В объвлении можно отправить не более 1-го изображения.')
+                            voprosmembers.remove(memberop.id)
+                            return
+                        if not attachment.content_type.startswith("image/"):
+                            await message.author.send(content='<:phoenix_error:954067706074775622> Публикация автоматически отклонена. Вложение не является изображением.')
+                            voprosmembers.remove(memberop.id)
+                            return   
+                if not message.attachments:
+                    countervopros += 1
+                    voprosmembers.append(memberop.id)
+                    annonce = discord.Embed(description=f'{message.content}', color = 0x2f3136)
+                    annonce.set_author(name=f"{message.author}", icon_url = message.author.display_avatar.url)
+                    msgtic = await channel.send(embed=annonce, view=view)
+                    embyes = discord.Embed(title= f'<:phoenix_verify:953725334770040953> Объявление на проверке.', description=f'Ваше объявление отправлено на проверку модерацией.', color = 0x2f3136)
+                    await memberop.send(embed = embyes)
                 def check(m):
                     return m.message.id == msgtic.id and m.author.guild_permissions.manage_messages == True
                 try:
@@ -67,12 +85,16 @@ async def on_message(message):
                     if m.component.custom_id == "acceptann":
                         voprosmembers.remove(memberop.id)
                         await channel2.send(embed = annonce)
-                        await message.author.send(content='<:phoenix_verify:953725334770040953> Ваше объявление одобрено и было опубликовано.')
+                        embyes = discord.Embed(title= f'<:phoenix_verify:953725334770040953> Объявление принято.', description=f'В результате проверки ваше __объявление было принято__ модератором `{m.author}` __и отправлено__ в <#939578152060084335>.', color = 0x2f3136)
+                        embyes.set_footer(text = f'{m.author}', icon_url = f'{m.author.display_avatar.url}')
+                        await message.author.send(embed = embyes)
                         await msgtic.delete()
                         return
                     if m.component.custom_id == "denyann":
                         voprosmembers.remove(memberop.id)
-                        await message.author.send(content=f'<:phoenix_error:954067706074775622> Текст вашей публикации не прошёл проверку. Публикация отклонена модератором {m.author}')
+                        embno = discord.Embed(title= f'<:phoenix_verify:953725334770040953> Объявление отклонено.', description=f'В результате проверки ваше __объявление было отклонено__ модератором `{m.author}`.', color = 0x2f3136)
+                        embno.set_footer(text = f'{m.author}', icon_url = f'{m.author.display_avatar.url}')
+                        await message.author.send(embed = embno)
                         await msgtic.delete()
                         return
 bot.run('OTQyMzc2Mzg3ODMzMTA2NDUy.YgjmZw.6WA7I1R4ZIBZZmXdvgpD_szowSE')
