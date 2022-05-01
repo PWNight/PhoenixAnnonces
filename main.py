@@ -1,8 +1,6 @@
-from pydoc import ErrorDuringImport
 import discord
 from discord.ext.commands.bot import Bot
 import asyncio
-import os
 import discord.utils
 from discord.ext import commands
 import disnake as discord
