@@ -15,6 +15,7 @@ countervopros = 0
 async def on_ready():
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name=f"Напиши мне в ЛС сообщение, чтобы я опубликовал его в объявлениях."))
     print('Анонсы активированы.')
+    
 @bot.event
 async def on_message(message):
     channel = bot.get_channel(956205925973229658) # ID канала с логами.
