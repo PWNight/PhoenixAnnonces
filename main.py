@@ -4,7 +4,6 @@ import asyncio
 import discord.utils
 from discord.ext import commands
 import disnake as discord
-from disnake.ext import commands
 from disnake.ui import Button, View
 
 bot = commands.Bot(command_prefix= r'//', intents = discord.Intents.all())
@@ -15,7 +14,7 @@ countervopros = 0
 async def on_ready():
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name=f"Напиши мне в ЛС сообщение, чтобы я опубликовал его в объявлениях."))
     print('Анонсы активированы.')
-    
+
 @bot.event
 async def on_message(message):
     channel = bot.get_channel(956205925973229658) # ID канала с логами.
@@ -90,7 +89,7 @@ async def on_message(message):
                         return
                     if m.component.custom_id == "denyann":
                         voprosmembers.remove(memberop.id)
-                        embno = discord.Embed(title= f'<:phoenix_verify:953725334770040953> Объявление отклонено.', description=f'В результате проверки ваше __объявление было отклонено__ модератором `{m.author}`.', color = 0x2f3136)
+                        embno = discord.Embed(title= f'<:phoenix_deny:953725334539358308> Объявление отклонено.', description=f'В результате проверки ваше __объявление было отклонено__ модератором `{m.author}`.', color = 0x2f3136)
                         embno.set_footer(text = f'{m.author}', icon_url = f'{m.author.display_avatar.url}')
                         await message.author.send(embed = embno)
                         await msgtic.delete()
