@@ -1,10 +1,10 @@
-import discord
+import disnake as discord
 from discord.ext.commands.bot import Bot
 import asyncio
 import discord.utils
 from discord.ext import commands
-import disnake as discord
 from disnake.ui import Button, View
+
 
 bot = commands.Bot(command_prefix= r'//', intents = discord.Intents.all())
 bot.remove_command('help')
@@ -12,7 +12,7 @@ voprosmembers = []
 countervopros = 0
 @bot.event
 async def on_ready():
-    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name=f"Напиши мне в ЛС сообщение, чтобы я опубликовал его в объявлениях."))
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"за объявлениями"))
     print('Анонсы активированы.')
 
 @bot.event
@@ -94,4 +94,4 @@ async def on_message(message):
                         await message.author.send(embed = embno)
                         await msgtic.delete()
                         return
-bot.run('OTQyMzc2Mzg3ODMzMTA2NDUy.YgjmZw.6WA7I1R4ZIBZZmXdvgpD_szowSE')
+bot.run('OTQyMzc2Mzg3ODMzMTA2NDUy.G9I_kp.X-PD0n8yfcXijHfs-IoRPmpS-4QV5-r4HUbMMk')
