@@ -1,7 +1,6 @@
 import disnake as discord
 from disnake.ext import commands
 import asyncio
-from discord.ext import commands
 from disnake.ui import Button, View
 
 bot = commands.Bot(command_prefix= r'//', intents = discord.Intents.all())
@@ -81,14 +80,14 @@ async def on_message(message):
                     if m.component.custom_id == "acceptann":
                         voprosmembers.remove(memberop.id)
                         await channel2.send(ping, embed = annonce)
-                        embyes = discord.Embed(title= f'<:phoenix_verify:953725334770040953> Объявление принято.', description=f'В результате проверки ваше __объявление было принято__ модератором `{m.author}` __и отправлено__ в <#939578152060084335>.', color = 0x2f3136)
+                        embyes = discord.Embed(title= f'<:phoenix_verify:953725334770040953> Объявление принято.', description=f'В результате проверки ваше объявление было принято модератором `{m.author}` и отправлено в <#939578152060084335>.', color = 0x2f3136)
                         embyes.set_footer(text = f'{m.author}', icon_url = f'{m.author.display_avatar.url}')
                         await message.author.send(embed = embyes)
                         await msgtic.delete()
                         return
                     if m.component.custom_id == "denyann":
                         voprosmembers.remove(memberop.id)
-                        embno = discord.Embed(title= f'<:phoenix_deny:953725334539358308> Объявление отклонено.', description=f'В результате проверки ваше __объявление было отклонено__ модератором `{m.author}`.', color = 0x2f3136)
+                        embno = discord.Embed(title= f'<:phoenix_deny:953725334539358308> Объявление отклонено.', description=f'В результате проверки ваше объявление было отклонено модератором `{m.author}`.', color = 0x2f3136)
                         embno.set_footer(text = f'{m.author}', icon_url = f'{m.author.display_avatar.url}')
                         await message.author.send(embed = embno)
                         await msgtic.delete()
