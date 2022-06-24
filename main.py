@@ -5,7 +5,6 @@ import discord.utils
 from discord.ext import commands
 from disnake.ui import Button, View
 
-
 bot = commands.Bot(command_prefix= r'//', intents = discord.Intents.all())
 bot.remove_command('help')
 voprosmembers = []
