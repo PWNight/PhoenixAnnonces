@@ -17,6 +17,7 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
+    ping = '<@&951475381691621466>'
     channel = bot.get_channel(956205925973229658) # ID канала с логами.
     channel2 = bot.get_channel(939578152060084335) # ID канала с логами.
     memberop = message.author
@@ -81,7 +82,7 @@ async def on_message(message):
                 else:
                     if m.component.custom_id == "acceptann":
                         voprosmembers.remove(memberop.id)
-                        await channel2.send(embed = annonce)
+                        await channel2.send(ping, embed = annonce)
                         embyes = discord.Embed(title= f'<:phoenix_verify:953725334770040953> Объявление принято.', description=f'В результате проверки ваше __объявление было принято__ модератором `{m.author}` __и отправлено__ в <#939578152060084335>.', color = 0x2f3136)
                         embyes.set_footer(text = f'{m.author}', icon_url = f'{m.author.display_avatar.url}')
                         await message.author.send(embed = embyes)
