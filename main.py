@@ -1,5 +1,5 @@
 import disnake as discord
-from discord.ext.commands.bot import Bot
+from disnake.ext import commands
 import asyncio
 import discord.utils
 from discord.ext import commands
